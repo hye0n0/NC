@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<jsp:forward page="main.do"></jsp:forward>
+	<jsp:forward page="main.do?id=test&password=1234"></jsp:forward>
 </body>
 </html>

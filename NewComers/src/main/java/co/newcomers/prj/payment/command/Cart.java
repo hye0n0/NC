@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import co.newcomers.prj.common.Command;
 import co.newcomers.prj.payment.service.PaymentService;
@@ -15,8 +16,8 @@ public class Cart implements Command {
 
 	@Override
 	public String exec(HttpServletRequest request, HttpServletResponse response) {
-		
-		String id = request.getParameter("id");
+		HttpSession session = request.getSession();
+		String id = (String) session.getAttribute("id");
 		System.out.println(id);
 		
 		PaymentService dao = new PaymentServiceImpl();

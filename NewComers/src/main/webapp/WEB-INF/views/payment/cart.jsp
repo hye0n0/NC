@@ -20,6 +20,16 @@
 <link rel="stylesheet" href="vendors/nouislider/nouislider.min.css">
 
 <link rel="stylesheet" href="css/style.css">
+<style>
+.delCartBtn{
+background-color: transparent;;
+border: none;
+}
+#delAllBtn{
+
+}
+
+</style>
 </head>
 <body>
 
@@ -64,7 +74,8 @@
 									<td>
 										<div class="media">
 											<div class="d-flex">
-												<img src="/NC/img/${cart.itemImage }" alt="" width="150px" height="150px">
+												<img src="/NC/img/${cart.itemImage }" alt="" width="150px"
+													height="150px">
 											</div>
 											<div class="media-body">
 												<p>${cart.itemTitle}</p>
@@ -76,15 +87,16 @@
 									</td>
 									<td>
 										<div class="product_count">
-											<input type="text" name="qty" id="sst" maxlength="12"
-												value="${cart.itemCount}" title="Quantity:" class="input-text qty">
+											<input type="text" name="qty" id="sst${cart.cartCode}" maxlength="12"
+												value="${cart.itemCount}" title="Quantity:"
+												class="input-text qty">
 											<button
-												onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
+												onclick="var result = document.getElementById('sst${cart.cartCode}'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
 												class="increase items-count" type="button">
 												<i class="lnr lnr-chevron-up"></i>
 											</button>
 											<button
-												onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
+												onclick="var result = document.getElementById('sst${cart.cartCode}'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
 												class="reduced items-count" type="button">
 												<i class="lnr lnr-chevron-down"></i>
 											</button>
@@ -93,48 +105,53 @@
 									<td>
 										<h5>${cart.itemPrice*cart.itemCount}</h5>
 									</td>
+									<td>
+										<h5><button class="delCartBtn" type="button" id="cart${cart.cartCode }">✖</button></h5>
+									</td>
 								</tr>
 							</c:forEach>
-
-							<tr class="shipping_area">
-								<td class="d-none d-md-block"></td>
-								<td></td>
+							<tr class="bottom_button">
 								<td>
-									<h5>Shipping</h5>
+									<a class="button" href="#" onclick="updateCart()">Update Cart</a>
 								</td>
 								<td>
-									<div class="shipping_box">
-										<ul class="list">
-											<li><a href="#">Flat Rate: $5.00</a></li>
-											<li><a href="#">Free Shipping</a></li>
-											<li><a href="#">Flat Rate: $10.00</a></li>
-											<li class="active"><a href="#">Local Delivery: $2.00</a></li>
-										</ul>
-										<h6>
-											Calculate Shipping <i class="fa fa-caret-down"
-												aria-hidden="true"></i>
-										</h6>
-										<select class="shipping_select">
-											<option value="1">Bangladesh</option>
-											<option value="2">India</option>
-											<option value="4">Pakistan</option>
-										</select> <select class="shipping_select">
-											<option value="1">Select a State</option>
-											<option value="2">Select a State</option>
-											<option value="4">Select a State</option>
-										</select> <input type="text" placeholder="Postcode/Zipcode"> <a
-											class="gray_btn" href="#">Update Details</a>
-									</div>
+  
+								</td>
+								<td>
+  
+								</td>
+								<td>
+									<a class="button" href="#" id="delAllBtn">Delete All</a>
+								</td>
+							</tr>
+							<tr>
+								<td>
+  
+								</td>
+								<td>
+  
+								</td>
+								<td>
+									<h5>Subtotal</h5>
+								</td>
+								<td>
+									<h5>$2160.00</h5>
 								</td>
 							</tr>
 							<tr class="out_button_area">
-								<td class="d-none-l"></td>
-								<td class=""></td>
-								<td></td>
+								<td class="d-none-l">
+  
+								</td>
+								<td class="">
+  
+								</td>
+								<td>
+  
+								</td>
 								<td>
 									<div class="checkout_btn_inner d-flex align-items-center">
-										<a class="gray_btn" href="#">Continue Shopping</a> <a
-											class="primary-btn ml-2" href="#">Proceed to checkout</a>
+										<a class="gray_btn" href="#">Continue Shopping</a>
+										<a class="primary-btn ml-2" href="#">Proceed to checkout</a>
 									</div>
 								</td>
 							</tr>
@@ -147,7 +164,21 @@
 	<!--================End Cart Area =================-->
 
 
+<script>
+function updateCart() {
+	let updateList = [];
+	document.querySelectorAll("#product_count>input").forEach(count => {
+		console.log(count.id);
+		console.log(count.value);
+		let data = {};
+		data.cartCode = count.id.substring(3);
+		data.itemCount = count.value;
+		updateList.push(data);
+	})
+	console.log(updateList);
 
+}
+</script>
 	<script src="vendors/jquery/jquery-3.2.1.min.js"></script>
 	<script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>
 	<script src="vendors/skrollr.min.js"></script>

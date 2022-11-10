@@ -20,8 +20,10 @@ public class Category implements Command {
 		ItemService dao = new ItemServiceImpl();
 		List<ItemVO> items = new ArrayList<>();
 		items = dao.itemSelectList(); 
-		System.out.println(items);
-		
+		for(ItemVO i : items) {
+			System.out.println(i.getItemTitle());
+			System.out.println(i.getItemImage());
+		}
 		request.setAttribute("items", items); 
 		
 		return "item/category.tiles";
