@@ -16,33 +16,50 @@ import co.newcomers.prj.member.command.MemberList;
 import co.newcomers.prj.member.command.MemberLogin;
 import co.newcomers.prj.member.command.MemberLoginForm;
 import co.newcomers.prj.member.command.MemberSignUp;
+import co.newcomers.prj.mypage.command.MyPageForm;
+import co.newcomers.prj.mypage.command.MyinfoUpdate;
+import co.newcomers.prj.mypage.command.MyorderlistForm;
+import co.newcomers.prj.mypage.command.MypageUpdate;
 import co.newcomers.prj.payment.command.Cart;
 import co.newcomers.prj.payment.command.Checkout;
 import co.newcomers.prj.payment.command.Confirmation;
 import co.newcomers.prj.common.Command;
+import co.newcomers.prj.detailorder.command.MydetailOrderList;
+import co.newcomers.prj.itemlist.command.Category;
 
 @WebServlet("*.do")
 public class FrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private HashMap<String, Command> map = new HashMap<String, Command>();
-    public FrontController() {
-        super();
 
-    }
+	public FrontController() {
+		super();
+
+	}
 
 	public void init(ServletConfig config) throws ServletException {
 		map.put("/main.do", new MainCommand()); // 처음 보여줄 페이지 명령
 		map.put("/cart.do", new Cart()); // 장바구니 이동
 		map.put("/checkout.do", new Checkout()); // 장바구니 이동
 		map.put("/confirmation.do", new Confirmation()); // 주문결과 이동
-		
-		map.put("/memberList.do", new MemberList()); //전체회원조회
-		map.put("/memberLoginForm.do", new MemberLoginForm()); //로그인폼 호출
-		map.put("/memberLogin.do", new MemberLogin()); //로그인 처리
-		map.put("/memberSignUp.do", new MemberSignUp()); //회원가입 화면
+
+		// 동욱씨
+		map.put("/myPageForm.do", new MyPageForm());
+		map.put("/mypageUpdate.do", new MypageUpdate());
+		map.put("/myinfoUpdate.do", new MyinfoUpdate());
+		map.put("/myorderlistform.do", new MyorderlistForm());
+		map.put("/mydetailorderlist.do", new MydetailOrderList());
+		// MydetailOrderList
+		// 미현씨
+		map.put("/memberLoginForm.do", new MemberLoginForm());
+		map.put("/memberSignUp.do", new MemberSignUp());
+		map.put("/memberLogin.do", new MemberLogin());
+		// 경미씨
+		map.put("/category.do", new Category());
 	}
 
-	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void service(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8"); // 한글깨짐방지
 		String uri = request.getRequestURI(); // 요청한 uri를 구함
 		String contextPath = request.getContextPath(); // 루트를 구함, context path
@@ -54,14 +71,14 @@ public class FrontController extends HttpServlet {
 		// viewResolve 파트
 		if (!viewPage.endsWith(".do") && viewPage != null) {
 			// ajax 처리
-			if(viewPage.startsWith("ajax:")){
+			if (viewPage.startsWith("ajax:")) {
 				response.setContentType("text/html; charset=UTF-8");
 				response.getWriter().append(viewPage.substring(5));
 				return;
 			}
 			// 타일즈 돌아가는 곳
 			if (!viewPage.endsWith(".tiles")) {
-				viewPage = "/WEB-INF/views/" + viewPage + ".jsp"; //타일즈를 안태움
+				viewPage = "/WEB-INF/views/" + viewPage + ".jsp"; // 타일즈를 안태움
 			}
 			RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 			dispatcher.forward(request, response);

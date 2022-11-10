@@ -9,7 +9,7 @@ public class Confirmation implements Command {
 
 	@Override
 	public String exec(HttpServletRequest request, HttpServletResponse response) {
-		return "payment/confirmation";
+		return "payment/confirmation.tiles";
 	}
 
 }

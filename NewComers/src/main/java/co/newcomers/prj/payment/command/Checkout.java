@@ -9,6 +9,6 @@ public class Checkout implements Command {
 
 	@Override
 	public String exec(HttpServletRequest request, HttpServletResponse response) {
-		return "payment/checkout";
+		return "payment/checkout.tiles";
 	}
 }

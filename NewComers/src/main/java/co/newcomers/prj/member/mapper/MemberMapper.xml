@@ -9,6 +9,8 @@
 		SELECT * FROM MEMBER WHERE ID = #{id}
 	</select>
 	
+	
+	
 	<insert id="memberInsert">
 		INSERT INTO MEMBER
 		VALUES (#{id}, #{password}, #{email}, #{name}, #{address}, 'user')

@@ -10,7 +10,6 @@ public interface MemberService {
 	int memberInsert(MemberVO vo); //회원 가입
 	int memberDelete(MemberVO vo); //회원 탈퇴
 	int memberUpdate(MemberVO vo); //회원 정보수정.
-	
 	MemberVO memberLogin(String id, String password); //로그인
 	boolean isMemberIdCheck(String id); //아이디 중복 체크
 }
