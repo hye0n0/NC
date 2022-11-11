@@ -9,6 +9,6 @@ public interface PaymentService {
 	int cartInsert(CartVO vo); // 장바구니 등록
 	int cartDelete(CartVO vo); // 장바구니 삭제
 	int cartUpdate(CartVO vo); // 장바구니 수정
-	
+	int allCartDelete(CartVO vo); //장바구니 전부 삭제
 	
 }

@@ -3,34 +3,32 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>Aroma Shop - Cart</title>
-<link rel="icon" href="img/Fevicon.png" type="image/png">
-<link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
-<link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">
-<link rel="stylesheet" href="vendors/themify-icons/themify-icons.css">
-<link rel="stylesheet" href="vendors/linericon/style.css">
-<link rel="stylesheet"
-	href="vendors/owl-carousel/owl.theme.default.min.css">
-<link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
-<link rel="stylesheet" href="vendors/nice-select/nice-select.css">
-<link rel="stylesheet" href="vendors/nouislider/nouislider.min.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Aroma Shop - Cart</title>
+	<link rel="icon" href="img/Fevicon.png" type="image/png">
+	<link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
+	<link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">
+	<link rel="stylesheet" href="vendors/themify-icons/themify-icons.css">
+	<link rel="stylesheet" href="vendors/linericon/style.css">
+	<link rel="stylesheet" href="vendors/owl-carousel/owl.theme.default.min.css">
+	<link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
+	<link rel="stylesheet" href="vendors/nice-select/nice-select.css">
+	<link rel="stylesheet" href="vendors/nouislider/nouislider.min.css">
 
-<link rel="stylesheet" href="css/style.css">
-<style>
-.delCartBtn{
-background-color: transparent;;
-border: none;
-}
-#delAllBtn{
-
-}
-
-</style>
+	<link rel="stylesheet" href="css/style.css">
+	<style>
+		.delCartBtn {
+			background-color: transparent;
+			;
+			border: none;
+		}
+	</style>
 </head>
+
 <body>
 
 	<!-- ================ start banner area ================= -->
@@ -69,12 +67,13 @@ border: none;
 							</tr>
 						</thead>
 						<tbody>
+						<c:set var="Subtotal" value="0"></c:set>
 							<c:forEach items="${carts}" var="cart">
 								<tr>
 									<td>
 										<div class="media">
 											<div class="d-flex">
-												<img src="/NC/img/${cart.itemImage }" alt="" width="150px"
+												<img src="upload/item/${cart.itemImage }" alt="" width="150px"
 													height="150px">
 											</div>
 											<div class="media-body">
@@ -88,8 +87,7 @@ border: none;
 									<td>
 										<div class="product_count">
 											<input type="text" name="qty" id="sst${cart.cartCode}" maxlength="12"
-												value="${cart.itemCount}" title="Quantity:"
-												class="input-text qty">
+												value="${cart.itemCount}" title="Quantity:" class="input-text qty">
 											<button
 												onclick="var result = document.getElementById('sst${cart.cartCode}'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
 												class="increase items-count" type="button">
@@ -103,50 +101,52 @@ border: none;
 										</div>
 									</td>
 									<td>
-										<h5>${cart.itemPrice*cart.itemCount}</h5>
+										<h5 id="total">${cart.itemPrice*cart.itemCount}</h5>
 									</td>
 									<td>
-										<h5><button class="delCartBtn" type="button" id="cart${cart.cartCode }">✖</button></h5>
+										<h5><button class="delCartBtn" type="button"
+												id="cart${cart.cartCode }" onclick="deleteCart(this)">✖</button></h5>
 									</td>
+									<c:set var="Subtotal" value="${Subtotal + (cart.itemPrice*cart.itemCount)}"></c:set>
 								</tr>
 							</c:forEach>
 							<tr class="bottom_button">
 								<td>
-									<a class="button" href="#" onclick="updateCart()">Update Cart</a>
+									<a class="button" href="javascript:;" onclick="updateCart()">Update Cart</a>
 								</td>
 								<td>
-  
+
 								</td>
 								<td>
-  
+
 								</td>
 								<td>
-									<a class="button" href="#" id="delAllBtn">Delete All</a>
+									<a class="button" href="javascript:;" id="delAllBtn" onclick="deleteAllCart()">Delete All</a>
 								</td>
 							</tr>
 							<tr>
 								<td>
-  
+
 								</td>
 								<td>
-  
+
 								</td>
 								<td>
 									<h5>Subtotal</h5>
 								</td>
 								<td>
-									<h5>$2160.00</h5>
+									<h5>${Subtotal }</h5>
 								</td>
 							</tr>
 							<tr class="out_button_area">
 								<td class="d-none-l">
-  
+
 								</td>
 								<td class="">
-  
+
 								</td>
 								<td>
-  
+
 								</td>
 								<td>
 									<div class="checkout_btn_inner d-flex align-items-center">
@@ -164,21 +164,29 @@ border: none;
 	<!--================End Cart Area =================-->
 
 
-<script>
-function updateCart() {
-	let updateList = [];
-	document.querySelectorAll("#product_count>input").forEach(count => {
-		console.log(count.id);
-		console.log(count.value);
-		let data = {};
-		data.cartCode = count.id.substring(3);
-		data.itemCount = count.value;
-		updateList.push(data);
-	})
-	console.log(updateList);
-
-}
-</script>
+	<script>
+		function updateCart() {
+			document.querySelectorAll('input[type="text"]').forEach(count => {
+				let url = "updateCart.do?cartCode="+ count.id.substring(3) + "&itemCount=" + count.value;
+				fetch(url);
+			})
+			location.href ="cart.do";
+		}
+		function deleteCart(btn) {
+			let cartCode = btn.getAttribute('id').substring(4);
+			let url = "deleteCart.do?cartCode="+ cartCode;
+			fetch(url);
+			btn.parentElement.parentElement.parentElement.remove();
+		}
+		function deleteAllCart() {
+			// let memberId = "${id}";
+			// let url = "deleteAllCart.do?memberId="+ memberId;
+			// fetch(url);
+			document.querySelector(".table>tbody").childElement.forEach(tr => {
+				console.log(tr);
+			});
+		}
+	</script>
 	<script src="vendors/jquery/jquery-3.2.1.min.js"></script>
 	<script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>
 	<script src="vendors/skrollr.min.js"></script>
@@ -188,4 +196,5 @@ function updateCart() {
 	<script src="vendors/mail-script.js"></script>
 	<script src="js/main.js"></script>
 </body>
+
 </html>

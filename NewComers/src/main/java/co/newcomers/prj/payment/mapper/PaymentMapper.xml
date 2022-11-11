@@ -12,8 +12,7 @@
 		AND CART.ITEM_CODE =
 		DETAIL_ITEM.ITEM_CODE
 		AND MEMBER_ID = #{id}
-		ORDER BY CART_DATE
-		DESC
+		ORDER BY CART.CART_CODE DESC
 	</select>
 	<insert id="cartInsert"
 		parameterType="co.newcomers.prj.payment.vo.CartVO">
@@ -28,8 +27,12 @@
 	</delete>
 	<update id="cartUpdate"
 		parameterType="co.newcomers.prj.payment.vo.CartVO">
-		UPDATE cart
-		SET item_count = #{itemCount}
+		UPDATE CART
+		SET ITEM_COUNT = #{itemCount}
 		WHERE cart_code = #{cartCode}
 	</update>
+	<delete id="allCartDelete"
+		parameterType="co.newcomers.prj.payment.vo.CartVO">
+		DELETE FROM CART WHERE MEMBER_ID = #{memberId}
+	</delete>
 </mapper>

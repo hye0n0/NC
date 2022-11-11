@@ -23,6 +23,8 @@ import co.newcomers.prj.mypage.command.MypageUpdate;
 import co.newcomers.prj.payment.command.Cart;
 import co.newcomers.prj.payment.command.Checkout;
 import co.newcomers.prj.payment.command.Confirmation;
+import co.newcomers.prj.payment.command.DeleteAllCart;
+import co.newcomers.prj.payment.command.DeleteCart;
 import co.newcomers.prj.payment.command.UpdateCart;
 import co.newcomers.prj.common.Command;
 import co.newcomers.prj.detailorder.command.MydetailOrderList;
@@ -41,7 +43,9 @@ public class FrontController extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		map.put("/main.do", new MainCommand()); // 처음 보여줄 페이지 명령
 		map.put("/cart.do", new Cart()); // 장바구니 이동
-		map.put("/updateCart.do", new UpdateCart());
+		map.put("/updateCart.do", new UpdateCart()); // 장바구니 수정
+		map.put("/deleteCart.do", new DeleteCart()); // 장바구니 삭제
+		map.put("/deleteAllCart.do", new DeleteAllCart()); // 장바구니 전부 삭제
 		map.put("/checkout.do", new Checkout()); // 주문화면 이동
 		map.put("/confirmation.do", new Confirmation()); // 주문결과 이동
 
@@ -69,6 +73,7 @@ public class FrontController extends HttpServlet {
 
 		Command command = map.get(page); // init 메소드에서 수행할 명령을 가져온다
 		String viewPage = command.exec(request, response); // 명령을 수행하고 결과를 돌려받음
+//		System.out.println(viewPage);
 
 		// viewResolve 파트
 		if (!viewPage.endsWith(".do") && viewPage != null) {

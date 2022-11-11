@@ -32,5 +32,10 @@ public class PaymentServiceImpl implements PaymentService{
 
 		return map.cartUpdate(vo);
 	}
+	@Override
+	public int allCartDelete(CartVO vo) {
+
+		return map.allCartDelete(vo);
+	}
 
 }
