@@ -69,7 +69,7 @@
 						<tbody>
 						<c:set var="Subtotal" value="0"></c:set>
 							<c:forEach items="${carts}" var="cart">
-								<tr>
+								<tr class="carts">
 									<td>
 										<div class="media">
 											<div class="d-flex">
@@ -150,8 +150,8 @@
 								</td>
 								<td>
 									<div class="checkout_btn_inner d-flex align-items-center">
-										<a class="gray_btn" href="#">Continue Shopping</a>
-										<a class="primary-btn ml-2" href="#">Proceed to checkout</a>
+										<a class="gray_btn" href="main.do">Continue Shopping</a>
+										<a class="primary-btn ml-2" href="checkout.do">Proceed to checkout</a>
 									</div>
 								</td>
 							</tr>
@@ -179,11 +179,11 @@
 			btn.parentElement.parentElement.parentElement.remove();
 		}
 		function deleteAllCart() {
-			// let memberId = "${id}";
-			// let url = "deleteAllCart.do?memberId="+ memberId;
-			// fetch(url);
-			document.querySelector(".table>tbody").childElement.forEach(tr => {
-				console.log(tr);
+			let memberId = "${id}";
+			let url = "deleteAllCart.do?memberId="+ memberId;
+			fetch(url);
+			document.querySelectorAll(".carts").forEach(t => {
+				t.remove();
 			});
 		}
 	</script>

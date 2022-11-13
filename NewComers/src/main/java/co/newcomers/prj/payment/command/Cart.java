@@ -23,8 +23,12 @@ public class Cart implements Command {
 		PaymentService dao = new PaymentServiceImpl();
 		List<CartVO> carts = new ArrayList<CartVO>();
 		carts = dao.cartSelectList(id);
+		for(CartVO c : carts) {
+			System.out.println(c.getItemName());
+		}
 		
-		request.setAttribute("carts", carts);
+		
+		session.setAttribute("carts", carts);
 		return "payment/cart.tiles";
 	}
 

@@ -13,4 +13,5 @@ public class CartVO {
 	private int itemPrice;
 	private int itemCount;
 	private String itemImage;
+	private String itemName;
 }
