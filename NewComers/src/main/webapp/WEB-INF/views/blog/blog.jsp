@@ -10,14 +10,19 @@
 <title>Aroma Shop - Blog</title>
 <link rel="icon" href="img/Fevicon.png" type="image/png">
 <link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
-<link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">
-<link rel="stylesheet" href="vendors/themify-icons/themify-icons.css">
-<link rel="stylesheet" href="vendors/linericon/style.css">
 <link rel="stylesheet"
 	href="vendors/owl-carousel/owl.theme.default.min.css">
 <link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
 
 <link rel="stylesheet" href="css/style.css">
+
+<style>
+	.blog_post img{
+		width: 500px;
+		height: 400px;
+	}
+
+</style>
 </head>
 <body>
 	<!-- ================ start banner area ================= -->
@@ -37,51 +42,53 @@
 		</div>
 	</section>
 	<!-- ================ end banner area ================= -->
-	
+
 	<!--================Blog Categorie Area =================-->
-	<section class="blog_categorie_area">
-	</section>
+	<section class="blog_categorie_area"></section>
 	<!--================Blog Categorie Area =================-->
-	
+
 	<!--================Blog Area =================-->
 	<section class="blog_area">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-8">
 					<div class="blog_left_sidebar">
-					
-						<article class="row blog_item">
-							<div class="col-md-3">
-								<div class="blog_info text-right">
-									<ul class="blog_meta list">
-										<li><a href="#">Mark wiens <i class="lnr lnr-user"></i>
-										</a></li>
-										<li><a href="#">12 Dec, 2017 <i
-												class="lnr lnr-calendar-full"></i>
-										</a></li>
-										<li><a href="#">1.2M <i class="fa-regular fa-circle-heart"></i>
-										</a></li>
-										<li><a href="#">06 Comments <i class="lnr lnr-bubble"></i>
-										</a></li>
-									</ul>
-								</div>
-							</div>
-							<div class="col-md-9">
-								<div class="blog_post">
-									<img src="img/blog/main-blog/m-blog-1.jpg" alt="">
-									<div class="blog_details">
-										<a href="single-blog.html">
-											<h2>Astronomy Binoculars A Great Alternative</h2>
-										</a>
-										<p>MCSE boot camps have its supporters and its detractors.
-											Some people do not understand why you should have to spend
-											money on boot camp when you can get the MCSE study materials
-											yourself at a fraction.</p>
+						<c:forEach items="${blogs}" var="blog">
+							<article class="row blog_item">
+								<div class="col-md-3">
+									<div class="blog_info text-right">
+										<ul class="blog_meta list">		
+											<li><a href="#">${blog.blogDate}<i class="fa-solid fa-calendar-days"></i>
+											</a></li>
+											<li id="${blog.blogCode}"><a href="#" id="likeCount${blog.blogCode}" onclick="return false;">${blog.blogLike}</a>
+											<c:set var="check" value="false"></c:set>
+											<c:forEach items="${likes}" var="like">
+											<c:if test="${like.blogCode == blog.blogCode}">
+											<c:set var="check" value="true"></c:set>
+											</c:if>
+											</c:forEach>
+											<c:choose>
+											<c:when test="${check eq 'true'}">
+												<a href="#" onclick="likeChange(this);return false;" value="YES" ><i class="fa-solid fa-heart" style="color: rgb(236, 90, 90);"></i></a>
+											</c:when>
+											<c:otherwise>
+												<a href="#" onclick="likeChange(this);return false;" value="NO" ><i class="fa-solid fa-heart" style="color: rgb(156, 156, 156);"></i></a>
+											</c:otherwise>
+											</c:choose>
+											</li>
+										</ul>
 									</div>
 								</div>
-							</div>
-						</article>
-						
+								<div class="col-md-9">
+									<div class="blog_post">
+										<img src="upload/blog/${blog.blogImage}" alt="">
+										<div class="blog_details">
+											<p>${blog.blogContent}</p>
+										</div>
+									</div>
+								</div>
+							</article>
+						</c:forEach>
 						<nav class="blog-pagination justify-content-center d-flex">
 							<ul class="pagination">
 								<li class="page-item"><a href="#" class="page-link"
@@ -126,19 +133,7 @@
 						<aside class="single_sidebar_widget author_widget">
 							<img class="author_img rounded-circle" src="img/blog/author.png"
 								alt="">
-							<h4>Charlie Barber</h4>
-							<p>Senior blog writer</p>
-							<div class="social_icon">
-								<a href="#"> <i class="fab fa-facebook-f"></i>
-								</a> <a href="#"> <i class="fab fa-twitter"></i>
-								</a> <a href="#"> <i class="fab fa-github"></i>
-								</a> <a href="#"> <i class="fab fa-behance"></i>
-								</a>
-							</div>
-							<p>Boot camps have its supporters andit sdetractors. Some
-								people do not understand why you should have to spend money on
-								boot camp when you can get. Boot camps have itssuppor ters
-								andits detractors.</p>
+							<h4>${seller}</h4>
 							<div class="br"></div>
 						</aside>
 						<aside class="single_sidebar_widget popular_post_widget">
@@ -177,7 +172,32 @@
 		</div>
 	</section>
 	<!--================Blog Area =================-->
+<script>
+	function likeChange(e){
+		let like = e.getAttribute('value');
+		let blogCode = e.parentElement.getAttribute('id');
+		let likeCount = document.getElementById("likeCount"+blogCode).textContent;
+		console.log(like);
 
+		if(like == 'YES'){
+			let newCount =  Number(likeCount) - 1;
+			let url = "likeChange.do?likeCount=" + newCount + "&blogCode=" + blogCode + "&val=del";
+			fetch(url);
+			e.setAttribute('value','NO');
+			e.firstChild.style.color = "rgb(156, 156, 156)";
+			document.getElementById("likeCount"+blogCode).textContent = newCount;
+		}else if(like == 'NO'){
+			let newCount = Number(likeCount) + 1;
+			let url = "likeChange.do?likeCount=" + newCount + "&blogCode=" + blogCode + "&val=add";
+			fetch(url);
+			e.setAttribute('value', 'YES');
+			e.firstChild.style.color = "rgb(236, 90, 90)";
+			document.getElementById("likeCount"+blogCode).textContent = newCount;
+		}
+	}
+</script>
+
+<script src="https://kit.fontawesome.com/6094ba072a.js" crossorigin="anonymous"></script>
 
 	<script src="vendors/jquery/jquery-3.2.1.min.js"></script>
 	<script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>

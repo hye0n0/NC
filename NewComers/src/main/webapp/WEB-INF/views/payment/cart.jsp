@@ -185,6 +185,7 @@
 			document.querySelectorAll(".carts").forEach(t => {
 				t.remove();
 			});
+			se
 		}
 	</script>
 	<script src="vendors/jquery/jquery-3.2.1.min.js"></script>

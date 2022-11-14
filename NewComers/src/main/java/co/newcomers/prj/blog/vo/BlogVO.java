@@ -1,5 +1,10 @@
 package co.newcomers.prj.blog.vo;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class BlogVO {
 	private String blogCode;
 	private String blogContent;
@@ -7,4 +12,5 @@ public class BlogVO {
 	private String blogWriter;
 	private int blogLike;
 	private String blogDate;
+	private String memberId;
 }
