@@ -16,6 +16,8 @@ public class Cart implements Command {
 
 	@Override
 	public String exec(HttpServletRequest request, HttpServletResponse response) {
+		request.getAttribute("id");
+		
 		HttpSession session = request.getSession();
 		String id = (String) session.getAttribute("id");
 		System.out.println(id);

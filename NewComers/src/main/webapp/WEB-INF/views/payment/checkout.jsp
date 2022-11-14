@@ -153,7 +153,7 @@
 								<c:set var="delivery" value="3000"></c:set>
 								<li><a href="#">delivery <span>3000</span></a>
 								</li>
-								<li><a href="#">Total <span class="Total">${Subtotal + delivery }</span></a></li>
+								<li><a href="#">Total <span id="total">${Subtotal + delivery }</span></a></li>
 							</ul>
 							<div class="payment_item">
 								<div class="radion_btn">
@@ -180,7 +180,7 @@
 									& conditions*</a>
 							</div>
 							<div class="text-center">
-								<a class="button button-paypal" href="#" onclick="requestPay()">Proceed to Paypal</a>
+								<a class="button button-paypal" href="javascript:;" onclick="requestPay()">Proceed to Paypal</a>
 							</div>
 						</div>
 					</div>
@@ -237,23 +237,30 @@ function execDaumPostcode() {
             document.getElementById("detail_address").focus();
         }
     }).open();
-}    
+}   
 	function requestPay() {
-		let email = sessionStorage.getItem("email");
-		let total = document.getElementsByClassName("Total").innerText;
-		let name = sessionStorage.getItem("name");
+		console.log('확인');
+		let email = "${email}";
+		console.log(email);
+		let total = document.getElementById("total").innerText;
+		console.log(total);
+		let name = "${name}";
+		console.log(name);
 		let tel = document.getElementById("phone").value;
+		console.log(tel);
 		let addr1 = document.getElementById("address").value;
 		let addr2 = document.getElementById("detail_address").value;
 		let addr = addr1 + " " + addr2;
+		console.log(addr);
 		let postcode = document.getElementById("postal_code").value;
+		console.log(postcode);
 		
 	    IMP.init('imp54500213') // 예: imp00000000
       // IMP.request_pay(param, callback) 결제창 호출
       IMP.request_pay({ // param
           pg: "kakaopay.TC0ONETIME",
           pay_method: "card",
-          merchant_uid: 'merchant_' + new Date().getTime(),
+          merchant_uid: 'NP_' + new Date().getTime(),
           name: "뉴커머스",
           amount: total,
           buyer_email: email,
@@ -264,14 +271,18 @@ function execDaumPostcode() {
       }, function (rsp) { // callback
           if (rsp.success) {
 			if (rsp.success) { // 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
-				var msg = '결제가 완료되었습니다.';
+				let msg = '결제가 완료되었습니다.';
         msg += '고유ID : ' + rsp.imp_uid;
         msg += '상점 거래ID : ' + rsp.merchant_uid;
         msg += '결제 금액 : ' + rsp.paid_amount;
         msg += '카드 승인번호 : ' + rsp.apply_num;
+		console.log('성공')
+		let url = "confirmation.do?merchant_uid=" + rsp.merchant_uid + "&total=" + total;
+		location.href = url;
           } else {
-			var msg = '결제에 실패하였습니다.';
+			let msg = '결제에 실패하였습니다.';
         msg += '에러내용 : ' + rsp.error_msg;
+		console.log('msg')
           }
 		}
       });

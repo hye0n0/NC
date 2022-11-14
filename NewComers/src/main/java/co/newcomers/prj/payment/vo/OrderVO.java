@@ -7,10 +7,8 @@ import lombok.Setter;
 @Setter
 public class OrderVO {
 	private String orderCode;
-	private int orderPrice;
-	private int itemPrice;
+	private String orderId;
+	private int orderTotal;
+	private String itemCode;
 	private int itemCount;
-	private String orderDate;
-	private String orderState;	
-	private String itemImage;
 }

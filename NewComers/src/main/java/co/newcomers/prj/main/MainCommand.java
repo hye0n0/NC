@@ -4,12 +4,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import co.newcomers.prj.cart.service.CartService;
-import co.newcomers.prj.cart.service.impl.CartServiceImpl;
 import co.newcomers.prj.common.Command;
 import co.newcomers.prj.member.service.MemberService;
 import co.newcomers.prj.member.service.impl.MemberServiceImpl;
 import co.newcomers.prj.member.vo.MemberVO;
+import co.newcomers.prj.payment.service.PaymentService;
+import co.newcomers.prj.payment.service.impl.PaymentServiceImpl;
+import co.newcomers.prj.payment.vo.CartVO;
+import co.newcomers.prj.payment.vo.OrderVO;
 
 public class MainCommand implements Command {
 
@@ -17,7 +19,7 @@ public class MainCommand implements Command {
 	public String exec(HttpServletRequest request, HttpServletResponse response) {
 		// 처음 들어올때 보여줄 페이지
 		MemberService dao = new MemberServiceImpl();
-		CartService cartdao = new CartServiceImpl();
+		PaymentService pdao = new PaymentServiceImpl();
 		MemberVO member = new MemberVO();
 		HttpSession session = request.getSession();
 		
@@ -44,7 +46,10 @@ public class MainCommand implements Command {
 			vo.setEmail(member.getEmail());
 			vo.setAddress(member.getAddress());
 			vo.setGrade(member.getGrade());
-			int cart = cartdao.mycartCount(vo);
+			
+			CartVO cvo = new CartVO();
+			cvo.setMemberId(id);
+			int cart = pdao.mycartCount(cvo);
 			System.out.println(vo.getId());
 			System.out.println(cart);
 			

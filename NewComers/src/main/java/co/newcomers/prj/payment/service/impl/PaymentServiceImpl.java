@@ -5,9 +5,11 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import co.newcomers.prj.common.DataSource;
+import co.newcomers.prj.member.vo.MemberVO;
 import co.newcomers.prj.payment.mapper.PaymentMapper;
 import co.newcomers.prj.payment.service.PaymentService;
 import co.newcomers.prj.payment.vo.CartVO;
+import co.newcomers.prj.payment.vo.OrderVO;
 
 public class PaymentServiceImpl implements PaymentService{
 	private SqlSession sqlSession = DataSource.getInstance().openSession(true);
@@ -37,5 +39,21 @@ public class PaymentServiceImpl implements PaymentService{
 
 		return map.allCartDelete(vo);
 	}
+	@Override
+	public int orderInsert(OrderVO vo) {
+
+		return map.orderInsert(vo);
+	}
+	@Override
+	public int detailOrderInsert(OrderVO vo) {
+
+		return map.detailOrderInsert(vo);
+	}
+	@Override
+	public int mycartCount(CartVO vo) {
+		
+		return map.mycartCount(vo);
+	}
+
 
 }
