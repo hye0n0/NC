@@ -27,6 +27,9 @@ import co.newcomers.prj.payment.command.DeleteAllCart;
 import co.newcomers.prj.payment.command.DeleteCart;
 import co.newcomers.prj.payment.command.UpdateCart;
 import co.newcomers.prj.blog.command.Blog;
+import co.newcomers.prj.blog.command.BlogDelete;
+import co.newcomers.prj.blog.command.BlogInsert;
+import co.newcomers.prj.blog.command.BlogUpdate;
 import co.newcomers.prj.blog.command.LikeChange;
 import co.newcomers.prj.common.Command;
 import co.newcomers.prj.detailorder.command.MydetailOrderList;
@@ -52,8 +55,11 @@ public class FrontController extends HttpServlet {
 		map.put("/confirmation.do", new Confirmation()); // 주문결과 이동
 		
 		map.put("/blog.do", new Blog()); // 블로그 이동
+		map.put("/blogInsert.do", new BlogInsert()); // 블로그 등록
+		map.put("/blogUpdate.do", new BlogUpdate()); // 블로그 수정
+		map.put("/blogDelete.do", new BlogDelete()); // 블로그 삭제
 		map.put("/likeChange.do", new LikeChange()); // 좋아요 추가,삭제
-
+		
 		// 동욱씨
 		map.put("/myPageForm.do", new MyPageForm());
 		map.put("/mypageUpdate.do", new MypageUpdate());

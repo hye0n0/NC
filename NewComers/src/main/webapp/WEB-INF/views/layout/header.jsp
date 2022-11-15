@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 </head>
 <body>
 	<header class="header_area">
@@ -66,28 +67,21 @@
             </ul>
 
             <ul class="nav-shop">
-              <li class="nav-item">
-              <button>
-              <i class="ti-search"></i>
-              </button>
-              </li>
+              <li class="nav-item">  <div class="search-box">
+                <button class="btn-search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <input type="text" class="input-search" placeholder="Type to Search...">
+              </div></li>
+              <li class="nav-item"><button><i class="fa-solid fa-cart-shopping"></i>
               <c:if test="${not empty id }">
-              <li class="nav-item">
-              <button onclick="location.href='myorderlistform.do'">
-              <i class="ti-shopping-cart"></i>
               <span class="nav-shop__circle">${cartcount }</span>
-              </button> 
-              </li>
               </c:if>
-              <li class="nav-item">
-              <a class="button button-header" href="#">
-              Buy Now</a>
-              </li>
+              </button> </li>
             </ul>
           </div>
         </div>
       </nav>
     </div>
   </header>
+  <script src="https://kit.fontawesome.com/6094ba072a.js" crossorigin="anonymous"></script>
 </body>
 </html>

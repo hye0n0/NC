@@ -3,7 +3,7 @@
 <mapper namespace="co.newcomers.prj.blog.mapper.BlogMapper">
 	<select id="blogSelectList"
 		resultType="co.newcomers.prj.blog.vo.BlogVO">
-		SELECT * FROM BLOG WHERE BLOG_WRITER = #{id}
+		SELECT * FROM BLOG WHERE BLOG_WRITER = #{id} ORDER BY BLOG_DATE DESC
 	</select>
 	<insert id="blogInsert"
 		parameterType="co.newcomers.prj.blog.vo.BlogVO">

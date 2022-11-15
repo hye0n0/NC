@@ -38,7 +38,7 @@ public class Blog implements Command {
 		List<BlogVO> likes = new ArrayList<BlogVO>();
 		likes = dao.likeSelect(id);
 		
-		request.setAttribute("likes", likes);
+		session.setAttribute("likes", likes);
 
 		return "blog/blog.tiles";
 	}

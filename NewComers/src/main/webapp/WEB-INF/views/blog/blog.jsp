@@ -53,6 +53,7 @@
 			<div class="row">
 				<div class="col-lg-8">
 					<div class="blog_left_sidebar">
+					<c:set var="writer" value=" "></c:set>
 						<c:forEach items="${blogs}" var="blog">
 							<article class="row blog_item">
 								<div class="col-md-3">
@@ -81,9 +82,16 @@
 								</div>
 								<div class="col-md-9">
 									<div class="blog_post">
+										<c:if test="${not empty blog.blogImage }">
 										<img src="upload/blog/${blog.blogImage}" alt="">
+										</c:if>
 										<div class="blog_details">
 											<p>${blog.blogContent}</p>
+											<c:if test="${id == blog.blogWriter }">
+											<a class="button button-blog" href="#" onclick="blogUpdate(this,'${blog.blogCode}');return false;" value="NO">수정</a>
+											<a class="button button-blog" href="#" onclick="blogDelete(this,'${blog.blogCode}');return false;">삭제</a>
+											</c:if>
+											<c:set var="writer" value="${blog.blogWriter}"></c:set>
 										</div>
 									</div>
 								</div>
@@ -118,15 +126,6 @@
 				<div class="col-lg-4">
 					<div class="blog_right_sidebar">
 						<aside class="single_sidebar_widget search_widget">
-							<div class="input-group">
-								<input type="text" class="form-control"
-									placeholder="Search Posts"> <span
-									class="input-group-btn">
-									<button class="btn btn-default" type="button">
-										<i class="lnr lnr-magnifier"></i>
-									</button>
-								</span>
-							</div>
 							<!-- /input-group -->
 							<div class="br"></div>
 						</aside>
@@ -136,6 +135,17 @@
 							<h4>${seller}</h4>
 							<div class="br"></div>
 						</aside>
+						<c:if test="${id == writer }">
+						<aside>
+						<form action="./blogInsert.do" method="post" enctype="multipart/form-data">
+						<label for="blog_content">블로그 내용</label><br>
+						<textarea name="blog_content" rows="10" cols="30"></textarea><br><br>
+						<label for="blog_content">사진</label>
+						<input type="file" name="blog_image"/><br>
+						<input type="submit" value="글 등록"><br><br>
+						</form>
+						</aside>
+						</c:if>
 						<aside class="single_sidebar_widget popular_post_widget">
 							<h3 class="widget_title">Popular Posts</h3>
 							<div class="media post_item">
@@ -195,6 +205,52 @@
 			document.getElementById("likeCount"+blogCode).textContent = newCount;
 		}
 	}
+	
+	function blogDelete(e, n) {
+		let blogCode = n;
+		let url = "blogDelete.do?blogCode=" + blogCode;
+		fetch(url);
+		e.parentElement.parentElement.parentElement.parentElement.remove();
+	}
+	
+	function blogUpdate(e, n) {
+		let check = e.getAttribute('value');
+		let blogCode = n;
+		if(check == 'NO'){
+			console.log("p입니다");
+			let content = e.previousSibling.previousSibling.textContent;
+			let cheId = document.getElementById('newBlogContent');
+			if(cheId != null){
+				console.log('확인');
+				content = document.getElementById('newBlogContent').textContent;
+				document.getElementById('newBlogContent').remove();
+			}
+			console.log(content);
+			if(cheId == null){
+				e.previousSibling.previousSibling.remove();
+			}
+			let textarea = document.createElement("textarea");
+			textarea.textContent = content;
+			textarea.setAttribute('id','newBlogContent');
+			textarea.setAttribute('rows','15');
+			textarea.setAttribute('cols','60');
+			e.parentElement.prepend(textarea);
+			e.setAttribute('value','YES');
+		}else if(check == 'YES') {
+			console.log("textarea입니다");
+			let content = document.getElementById('newBlogContent').value;
+			console.log(content);
+			let url = "blogUpdate.do?blogContent=" + content + "&blogCode=" + blogCode;
+			fetch(url);
+			document.getElementById('newBlogContent').remove();
+			let p = document.createElement("p");
+			p.textContent = content;
+			p.setAttribute('id','newBlogContent');
+			e.parentElement.prepend(p);
+			e.setAttribute('value','NO');
+		}
+	}
+	
 </script>
 
 <script src="https://kit.fontawesome.com/6094ba072a.js" crossorigin="anonymous"></script>

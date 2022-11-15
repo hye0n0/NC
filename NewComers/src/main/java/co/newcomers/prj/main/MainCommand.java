@@ -18,48 +18,6 @@ public class MainCommand implements Command {
 	@Override
 	public String exec(HttpServletRequest request, HttpServletResponse response) {
 		// 처음 들어올때 보여줄 페이지
-		MemberService dao = new MemberServiceImpl();
-		PaymentService pdao = new PaymentServiceImpl();
-		MemberVO member = new MemberVO();
-		HttpSession session = request.getSession();
-		
-		String id = request.getParameter("id");
-		String password = request.getParameter("password");
-		
-		String message = "아이디 또는 패스워드가 틀립니다.";
-			
-		member = dao.memberLogin(id, password);
-		
-		System.out.println(member);
-		if(member != null) {
-			session.setAttribute("id", member.getId());
-			session.setAttribute("password", member.getPassword());
-			session.setAttribute("name", member.getName());
-			session.setAttribute("email", member.getEmail());
-			session.setAttribute("address", member.getAddress());
-			session.setAttribute("grade", member.getGrade());
-			
-			MemberVO vo = new MemberVO();
-			vo.setId(member.getId());
-			vo.setPassword(member.getPassword());
-			vo.setName(member.getName());
-			vo.setEmail(member.getEmail());
-			vo.setAddress(member.getAddress());
-			vo.setGrade(member.getGrade());
-			
-			CartVO cvo = new CartVO();
-			cvo.setMemberId(id);
-			int cart = pdao.mycartCount(cvo);
-			System.out.println(vo.getId());
-			System.out.println(cart);
-			
-			session.setAttribute("cartcount", cart);
-			System.out.println("로그인 완료!");
-			
-		} else {
-			System.out.println("등록된 정보가 없습니다.");
-			return "member/memberLoginForm.tiles";
-		}
 		
 		return "main/main.tiles";
 	}

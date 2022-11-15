@@ -112,7 +112,7 @@
 							</c:forEach>
 							<tr class="bottom_button">
 								<td>
-									<a class="button" href="javascript:;" onclick="updateCart()">Update Cart</a>
+									<a class="button" href="#" onclick="updateCart();return false;">UpdateCart</a>
 								</td>
 								<td>
 
@@ -121,7 +121,7 @@
 
 								</td>
 								<td>
-									<a class="button" href="javascript:;" id="delAllBtn" onclick="deleteAllCart()">Delete All</a>
+									<a class="button" href="#"  id="delAllBtn" onclick="deleteAllCart();return false;">DeleteAll</a>
 								</td>
 							</tr>
 							<tr>

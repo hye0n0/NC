@@ -180,7 +180,7 @@
 									& conditions*</a>
 							</div>
 							<div class="text-center">
-								<a class="button button-paypal" href="javascript:;" onclick="requestPay()">Proceed to Paypal</a>
+								<a class="button button-paypal" href="#" onclick="requestPay();return false;">Proceed to Paypal</a>
 							</div>
 						</div>
 					</div>
