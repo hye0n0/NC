@@ -21,11 +21,6 @@
 
 	<link rel="stylesheet" href="css/style.css">
 	<style>
-		.delCartBtn {
-			background-color: transparent;
-			;
-			border: none;
-		}
 	</style>
 </head>
 

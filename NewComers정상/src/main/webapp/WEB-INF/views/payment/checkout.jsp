@@ -46,6 +46,7 @@
 	<!--================Checkout Area =================-->
 	<section class="checkout_area section-margin--small">
 		<div class="container">
+		<div class="cart_inner">
 			<div class="table-responsive">
 				<table class="table">
 					<thead>
@@ -91,11 +92,12 @@
 								<h5>Subtotal</h5>
 							</td>
 							<td>
-								<h5>${Subtotal }</h5>
+								<h5 id="Subtotal">${Subtotal }</h5>
 							</td>
 						</tr>
 					</tbody>
 				</table>
+			</div>
 			</div>
 			<div class="billing_details">
 				<div class="row">
@@ -153,7 +155,7 @@
 								<c:set var="delivery" value="3000"></c:set>
 								<li><a href="#">delivery <span>3000</span></a>
 								</li>
-								<li><a href="#">Total <span id="total">${Subtotal + delivery }</span></a></li>
+								<li><a href="#">Total <span id="endtotal">${Subtotal + delivery }</span></a></li>
 							</ul>
 							<div class="payment_item">
 								<div class="radion_btn">
@@ -242,7 +244,7 @@ function execDaumPostcode() {
 		console.log('확인');
 		let email = "${email}";
 		console.log(email);
-		let total = document.getElementById("total").innerText;
+		let total = document.getElementById("endtotal").innerText;
 		console.log(total);
 		let name = "${name}";
 		console.log(name);
@@ -289,12 +291,12 @@ function execDaumPostcode() {
     }
 
 </script>
+
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <!-- jQuery -->
   <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
   <!-- iamport.payment.js -->
   <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
-
 	<script src="vendors/jquery/jquery-3.2.1.min.js"></script>
 	<script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>
 	<script src="vendors/skrollr.min.js"></script>

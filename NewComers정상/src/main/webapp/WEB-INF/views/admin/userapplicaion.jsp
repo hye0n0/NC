@@ -38,7 +38,7 @@
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
-  background-color: #04AA6D;
+  background-color: #6668AB;
   color: white;
 }
 @font-face {
@@ -83,7 +83,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-3">
-					<div class="blog_right_sidebar">
+					<div class="blog_right_sidebar" style="padding-bottom: 59px; margin-top: 47px; margin-right: 20px; margin-left: -20px;">
 
 						<aside class="single_sidebar_widget author_widget">
 							<img class="author_img rounded-circle" src="img/blog/author.png"
@@ -187,25 +187,6 @@
 		</div>
 	</section>
 	<!--================Blog Area =================-->
-
-
-	<!--================Instagram Area =================-->
-	<section class="instagram_area">
-		<div class="container box_1620">
-			<div class="insta_btn">
-				<a class="btn theme_btn" href="#">Follow us on instagram</a>
-			</div>
-			<div class="instagram_image row m0">
-				<a href="#"><img src="img/instagram/ins-1.jpg" alt=""></a> <a
-					href="#"><img src="img/instagram/ins-2.jpg" alt=""></a> <a
-					href="#"><img src="img/instagram/ins-3.jpg" alt=""></a> <a
-					href="#"><img src="img/instagram/ins-4.jpg" alt=""></a> <a
-					href="#"><img src="img/instagram/ins-5.jpg" alt=""></a> <a
-					href="#"><img src="img/instagram/ins-6.jpg" alt=""></a>
-			</div>
-		</div>
-	</section>
-	<!--================End Instagram Area =================-->
 
 
 	<!--================ Start footer Area  =================-->

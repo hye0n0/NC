@@ -18,13 +18,29 @@
 <link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
 <link rel="stylesheet" href="vendors/nice-select/nice-select.css">
 <link rel="stylesheet" href="vendors/nouislider/nouislider.min.css">
-
 <link rel="stylesheet" href="css/style.css">
+
+<style>
+@font-face {
+    font-family: 'LINESeedKR-Bd';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Bd.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+.orderlist{
+font-family: 'LINESeedKR-Bd';
+font-size: 20px;
+color: black;
+margin:100px auto;
+}
+
+</style>
 </head>
 <body>
 	<section class="order_details section-margin--small">
 		<div class="container">
-			<p class="text-center billing-alert">상품 조회..</p>
+			<h1>상품 조회</h1>
 			<div class="row mb-5">
 				<table class="table">
 					<thead>
@@ -47,27 +63,27 @@
 												height="200px">
 										</div>
 										<div class="ship-media-body">
-											<p class="itemName">${s.itemName }</p>
+											<p class="orderlist">${s.itemTitle }</p>
 										</div>
 									</div>
 								</td>
 								<td>
-									<h5>${s.itemPrice }</h5>
+									<p class="orderlist">${s.itemPrice }</p>
 								</td>
 								<td>
-									<h5>${s.itemCount }</h5>
+									<p class="orderlist">${s.itemCount }</p>
 								</td>
 								<td>
-									<h5>${s.itemCount * s.itemPrice}</h5>
+									<p class="orderlist">${s.itemCount * s.itemPrice}</p>
 								</td>
 
 								<td>
-									<h5>${s.orderState}</h5> <!-- onclick="location.href='orderconfirm'" -->
+									<p class="orderlist">${s.orderState}</p> <!-- onclick="location.href='orderconfirm'" -->
 								</td>
 								<td>
-									<button class="button button-confirm mr-auto mb-1"
+									<button class="button orderlist button-confirm mr-auto mb-1"
 										type="submit" width="30px" height="30px"
-										onclick="shipConfirm(this)">구매확정</button>
+										onclick="shipConfirm(this)" margin="100px auto" style="color: ">구매확정</button>
 
 								</td>
 
@@ -77,8 +93,8 @@
 				</table>
 			</div>
 
-			<p class="text-center billing-alert">배송완료 물품..</p>
-			<div class="row mb-5">
+			<div class="row mb-5">	
+			<h1>배송완료 물품</h1>
 				<table class="table">
 					<thead>
 						<tr>
@@ -98,18 +114,18 @@
 												height="200px">
 										</div>
 										<div class="media-body">
-											<p>${s.itemName }</p>
+											<p class="orderlist">${s.itemName }</p>
 										</div>
 									</div>
 								</td>
 								<td>
-									<h5>${s.itemPrice }</h5>
+									<p class="orderlist">${s.itemPrice }</h5>
 								</td>
 								<td>
-									<h5>${s.itemCount }</h5>
+									<p class="orderlist">${s.itemCount }</h5>
 								</td>
 								<td>
-									<h5>${s.itemCount * s.itemPrice}</h5>
+									<p class="orderlist">${s.itemCount * s.itemPrice}</h5>
 								</td>
 							</tr>
 						</c:forEach>

@@ -63,8 +63,8 @@
 						<c:if test="${not empty id }">
 						<form class="row login_form" action="memberSingUp.do" onsubmit="return formSubmit()" id="register_form" method="post">
 						<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="id" name="id" value="${id }" placeholder="${id }" onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID'" readonly>
-								<button type="button" id="btn" value="No" onclick="idCheck()">Check</button>
+								<input type="text" class="form-control" id="id" name="id" value="${id }" placeholder="${id }" onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID'" readonly style="width: 70%;float: left;margin-right: 25px;">
+								<button type="button" id="btn" value="No" onclick="idCheck()"style="float: left;background-color: #2C2E77;width: 83px;color: #ffff;border-color: #3a3d99;text-transform: uppercase;padding: 5px 3px;">Check</button>
 						</div>
 						 <div class="col-md-12 form-group">
 								<input type="password" class="form-control" id="password" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
@@ -100,9 +100,9 @@
 				<!--  ==============일반 회원가입 ================= -->
 						<c:if test="${empty id }">
 						<form class="row login_form" action="memberSingUp.do" onsubmit="return formSubmit()" id="register_form" method="post">
-						<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="id" name="id" placeholder="ID" onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID'">
-								<button type="button" id="btn" value="No" onclick="idCheck()">Check</button>
+						<div class="col-md-12 form-group" >
+								<input type="text" class="form-control" id="id" name="id" placeholder="ID" onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID'" style="width: 70%;float: left;margin-right: 25px;">
+								<button type="button" id="btn" value="No" onclick="idCheck()" style="float: left;background-color: #2C2E77;width: 83px;color: #ffff;border-color: #3a3d99;text-transform: uppercase;padding: 5px 3px;">Check</button>
 						</div>
 						 <div class="col-md-12 form-group">
 								<input type="password" class="form-control" id="password" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
