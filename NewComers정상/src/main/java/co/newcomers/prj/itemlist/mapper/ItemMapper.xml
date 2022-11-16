@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.newcomers.prj.itemlist.mapper.ItemMapper">
+
+	<select id="itemSelectList"
+		resultType="co.newcomers.prj.itemlist.vo.ItemVO">
+		SELECT ITEM.ITEM_CODE, DETAIL_ITEM.ITEM_TITLE, ITEM.ITEM_PRICE,
+		ITEM.ITEM_CATEGORY, DETAIL_ITEM.ITEM_IMAGE1 AS ITEM_IMAGE,
+		ITEM.ITEM_ID,MEMBER.NICKNAME
+		FROM ITEM , DETAIL_ITEM ,MEMBER
+		WHERE
+		ITEM.ITEM_CODE = DETAIL_ITEM.ITEM_CODE
+		AND MEMBER.ID=ITEM.ITEM_ID
+		<choose>
+			<when test="order == 01 ">
+				ORDER BY TO_NUMBER(ITEM_CODE) ASC
+			</when>
+			<when test="order == 02 ">
+				ORDER BY TO_NUMBER(ITEM_CODE) DESC
+			</when>
+			<when test="order == 03 ">
+				ORDER BY ITEM_PRICE ASC
+			</when>
+			<when test="order == 04 ">
+				ORDER BY ITEM_PRICE DESC
+			</when>
+		</choose>
+	</select>
+
+	<select id="itemPriceSelectList"
+		resultType="co.newcomers.prj.itemlist.vo.ItemVO">
+		SELECT ITEM.ITEM_CODE, DETAIL_ITEM.ITEM_TITLE,
+		ITEM.ITEM_PRICE, DETAIL_ITEM.ITEM_IMAGE1 as ITEM_IMAGE
+		FROM ITEM ,
+		DETAIL_ITEM
+		WHERE ITEM.ITEM_CODE = DETAIL_ITEM.ITEM_CODE AND ITEM.ITEM_PRICE BETWEEN
+		#{minPrice} AND #{maxPrice}
+		ORDER BY 1 DESC
+	</select>
+
+	<select id="itemSearchList"
+		resultType="co.newcomers.prj.itemlist.vo.ItemVO">
+		SELECT ITEM.ITEM_CODE, DETAIL_ITEM.ITEM_TITLE,
+		ITEM.ITEM_PRICE, ITEM.ITEM_CATEGORY, DETAIL_ITEM.ITEM_IMAGE1 as
+		ITEM_IMAGE
+		FROM ITEM , DETAIL_ITEM
+		WHERE ITEM.ITEM_CODE = DETAIL_ITEM.ITEM_CODE
+		AND DETAIL_ITEM.ITEM_TITLE LIKE '%'||#{search }||'%'
+		ORDER BY 1 DESC
+	</select>
+
+	<select id="itemSelect"
+		resultType="co.newcomers.prj.itemlist.vo.ItemVO">
+		SELECT * FROM ITEM
+		WHERE ITEM = #{itemCode}
+	</select>
+
+	<select id="itemSearch"
+		resultType="co.newcomers.prj.itemlist.vo.ItemVO">
+		SELECT* FROM ITEM I, DETAIL_ITEM D
+		WHERE I.ITEM_CODE =
+		D.ITEM_CODE
+		AND I.ITEM_NAME LIKE '%'#{itemName}'%'
+		AND D.ITEM_TITLE LIKE
+		'%'#{itemTitle}'%'
+	</select>
+
+	<insert id="itemInsert"
+		parameterType="co.newcomers.prj.itemlist.vo.ItemVO">
+		INSERT INTO ITEM
+		VALUES(item_seq.nextval, #{itemName},
+		#{itemPrice})
+	</insert>
+
+	<delete id="itemDelete"
+		parameterType="co.newcomers.prj.itemlist.vo.ItemVO">
+		DELETE FROM ITEM WHERE ITEM_CODE = #{itemCode}
+	</delete>
+
+	<update id="itemUpdate"
+		parameterType="co.newcomers.prj.itemlist.vo.ItemVO">
+		UPDATE ITEM
+		SET ITEM_NAME = #{itemName},
+		ITEM_PRICE = #{itemPrice}
+		WHERE ITEM_CODE = #{itemCode}
+	</update>
+
+	<select id="itemSearchCount"
+		resultType="co.newcomers.prj.itemlist.vo.ItemVO">
+		<!-- <![CDATA[ SELECT* FROM ITEM I, DETAIL_ITEM D FROM ITEM , DETAIL_ITEM 
+			WHERE ITEM.ITEM_CODE = DETAIL_ITEM.ITEM_CODE <if test="num != 0"> AND ROWNUM 
+			<= #{num } </if> <if test="order == '01'"> ORDER BY TO_NUMBER(I.ITEM_CODE) 
+			DESC </if> <if test="order == '02'"> ORDER BY TO_NUMBER(I.ITEM_CODE) ASC 
+			</if> <if test="order == '03'"> ORDER BY I.ITEM_PRICE ASC </if> <if test="order 
+			== '04'"> ORDER BY I.ITEM_PRICE DESC </if> -->
+		<![CDATA[	
+		SELECT ITEM.ITEM_CODE, DETAIL_ITEM.ITEM_TITLE, ITEM.ITEM_PRICE, ITEM.ITEM_CATEGORY, DETAIL_ITEM.ITEM_IMAGE1 as ITEM_IMAGE , MEMBER.NICKNAME
+		FROM ITEM , DETAIL_ITEM ,MEMBER
+		WHERE ITEM.ITEM_CODE = DETAIL_ITEM.ITEM_CODE 
+        AND MEMBER.ID=ITEM.ITEM_ID
+        AND ROWNUM <= #{num }
+		]]>
+		<if test="order == '01'"> ORDER BY TO_NUMBER(ITEM.ITEM_CODE) DESC </if>
+		<if test="order == '02'"> ORDER BY TO_NUMBER(ITEM.ITEM_CODE) ASC </if>
+		<if test="order == '03'"> ORDER BY ITEM.ITEM_PRICE ASC </if>
+		<if test="order == '04'"> ORDER BY ITEM.ITEM_PRICE DESC </if>
+	</select>
+</mapper>

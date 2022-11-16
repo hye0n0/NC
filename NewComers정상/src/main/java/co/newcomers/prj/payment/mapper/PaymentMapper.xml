@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.newcomers.prj.payment.mapper.PaymentMapper">
+	<select id="cartSelectList"
+		resultType="co.newcomers.prj.payment.vo.CartVO">
+		SELECT CART.CART_CODE, CART.MEMBER_ID, CART.ITEM_CODE,
+		DETAIL_ITEM.ITEM_TITLE, ITEM.ITEM_PRICE, CART.ITEM_COUNT,
+		DETAIL_ITEM.ITEM_IMAGE1 as ITEM_IMAGE, ITEM.ITEM_NAME
+		FROM CART, ITEM, DETAIL_ITEM
+		WHERE
+		CART.ITEM_CODE = ITEM.ITEM_CODE
+		AND CART.ITEM_CODE =
+		DETAIL_ITEM.ITEM_CODE
+		AND MEMBER_ID = #{id}
+		ORDER BY CART.CART_CODE DESC
+	</select>
+	<insert id="cartInsert"
+		parameterType="co.newcomers.prj.payment.vo.CartVO">
+		INSERT INTO CART (CART_CODE, MEMBER_ID, ITEM_CODE,
+		ITEM_COUNT)
+		VALUES (cart_seq.nextval, #{memberId}, #{itemCode},
+		#{itemCount})
+	</insert>
+	<delete id="cartDelete"
+		parameterType="co.newcomers.prj.payment.vo.CartVO">
+		DELETE FROM CART WHERE CART_CODE = #{cartCode}
+	</delete>
+	<update id="cartUpdate"
+		parameterType="co.newcomers.prj.payment.vo.CartVO">
+		UPDATE CART
+		SET ITEM_COUNT = #{itemCount}
+		WHERE cart_code = #{cartCode}
+	</update>
+	<delete id="allCartDelete"
+		parameterType="co.newcomers.prj.payment.vo.CartVO">
+		DELETE FROM CART WHERE MEMBER_ID = #{memberId}
+	</delete>
+	<insert id="orderInsert" parameterType="co.newcomers.prj.payment.vo.OrderVO">
+		INSERT INTO orders (order_code, order_id, order_total)
+		VALUES (#{orderCode}, #{orderId},#{orderTotal})
+	</insert>
+	<insert id="detailOrderInsert" parameterType="co.newcomers.prj.payment.vo.OrderVO">
+		INSERT INTO detail_order
+		VALUES (#{orderCode}, #{itemCode}, #{itemCount}, '결제완료')
+	</insert>
+		<select id="mycartCount" parameterType="co.newcomers.prj.payment.vo.CartVO" resultType="int">
+		SELECT COUNT(ITEM_COUNT) FROM CART
+		WHERE MEMBER_ID = #{memberId }
+	</select>
+</mapper>

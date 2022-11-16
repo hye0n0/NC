@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.newcomers.prj.blog.mapper.BlogMapper">
+	<select id="blogSelectList"
+		resultType="co.newcomers.prj.blog.vo.BlogVO">
+		SELECT * FROM BLOG WHERE BLOG_WRITER = #{id} ORDER BY
+		BLOG_DATE DESC
+	</select>
+	<select id="getId" resultType="String">
+		SELECT ID FROM MEMBER WHERE
+		NICKNAME='${NICKNAME }'
+	</select>
+
+	<insert id="blogInsert"
+		parameterType="co.newcomers.prj.blog.vo.BlogVO">
+		INSERT INTO BLOG (BLOG_CODE, BLOG_CONTENT, BLOG_IMAGE,
+		BLOG_WRITER)
+		VALUES (blog_seq.nextval, #{blogContent}, #{blogImage},
+		#{blogWriter})
+	</insert>
+	<delete id="blogDelete"
+		parameterType="co.newcomers.prj.blog.vo.BlogVO">
+		DELETE FROM BLOG WHERE BLOG_CODE = #{blogCode}
+	</delete>
+	<update id="blogUpdate"
+		parameterType="co.newcomers.prj.blog.vo.BlogVO">
+		UPDATE BLOG
+		SET BLOG_CONTENT = #{blogContent}
+		WHERE
+		BLOG_CODE = #{blogCode}
+	</update>
+	<update id="likeUpdate"
+		parameterType="co.newcomers.prj.blog.vo.BlogVO">
+		UPDATE BLOG
+		SET BLOG_LIKE = #{blogLike}
+		WHERE
+		BLOG_CODE
+		=
+		#{blogCode}
+	</update>
+	<select id="likeSelect"
+		resultType="co.newcomers.prj.blog.vo.BlogVO">
+		SELECT * FROM LIKES WHERE MEMBER_ID = #{id}
+	</select>
+	<insert id="likeInsert"
+		parameterType="co.newcomers.prj.blog.vo.BlogVO">
+		INSERT INTO LIKES
+		VALUES (#{blogCode}, #{memberId})
+	</insert>
+	<delete id="likeDelete"
+		parameterType="co.newcomers.prj.blog.vo.BlogVO">
+		DELETE FROM LIKES WHERE BLOG_CODE = #{blogCode}
+		AND
+		MEMBER_ID = #{memberId}
+	</delete>
+</mapper>

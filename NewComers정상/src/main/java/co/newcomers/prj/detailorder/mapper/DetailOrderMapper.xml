@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="co.newcomers.prj.detailorder.mapper.DetailOrderMapper">
+
+	<!-- 배송중인 아이들 -->
+	<select id="myShipping"
+		resultType="co.newcomers.prj.detailorder.vo.DetailOrderVO">
+		SELECT DETAIL_ITEM.ITEM_IMAGE1 AS ITEM_IMAGE,
+		ITEM.ITEM_NAME, ITEM.ITEM_PRICE, DETAIL_ORDER.ITEM_COUNT,
+		DETAIL_ORDER.ORDER_STATE
+		FROM DETAIL_ITEM, ITEM, DETAIL_ORDER
+		WHERE
+		DETAIL_ORDER.ITEM_CODE = ITEM.ITEM_CODE
+		AND DETAIL_ORDER.ITEM_CODE =
+		DETAIL_ITEM.ITEM_CODE
+		AND DETAIL_ORDER.ITEM_CODE IN (
+		SELECT
+		DETAIL_ORDER.ITEM_CODE FROM ORDERS, DETAIL_ORDER
+		WHERE
+		ORDERS.ORDER_CODE = DETAIL_ORDER.ORDER_CODE
+		AND ORDERS.ORDER_ID = #{id }
+		AND DETAIL_ORDER.ORDER_STATE != '배송완료')
+	</select>
+
+
+	<!-- 배송완료된 아이들 -->
+	<select id="myEndShipping"
+		resultType="co.newcomers.prj.detailorder.vo.DetailOrderVO">
+		SELECT DETAIL_ITEM.ITEM_IMAGE1 AS ITEM_IMAGE,
+		ITEM.ITEM_NAME, ITEM.ITEM_PRICE, DETAIL_ORDER.ITEM_COUNT,
+		DETAIL_ORDER.ORDER_STATE
+		FROM DETAIL_ITEM, ITEM, DETAIL_ORDER
+		WHERE
+		DETAIL_ORDER.ITEM_CODE = ITEM.ITEM_CODE
+		AND DETAIL_ORDER.ITEM_CODE =
+		DETAIL_ITEM.ITEM_CODE
+		AND DETAIL_ORDER.ITEM_CODE IN (
+		SELECT
+		DETAIL_ORDER.ITEM_CODE FROM ORDERS, DETAIL_ORDER
+		WHERE
+		ORDERS.ORDER_CODE = DETAIL_ORDER.ORDER_CODE
+		AND ORDERS.ORDER_ID = #{id }
+		AND DETAIL_ORDER.ORDER_STATE = '배송완료')
+	</select>
+	<!-- 배송완료버튼 클릭하는.. -->
+	<update id="Shipconfirm">
+
+		UPDATE DETAIL_ORDER
+        SET ORDER_STATE = '배송완료'
+        WHERE ITEM_CODE IN(
+        SELECT
+		DETAIL_ORDER.ITEM_CODE FROM ORDERS, DETAIL_ORDER, ITEM
+		WHERE
+		ORDERS.ORDER_CODE = DETAIL_ORDER.ORDER_CODE
+        AND DETAIL_ORDER.ITEM_CODE=ITEM.ITEM_CODE
+		AND ORDERS.ORDER_ID = #{id }
+		AND DETAIL_ORDER.ORDER_STATE != '배송완료'
+        AND ITEM.ITEM_NAME=#{itemname })
+	</update>
+
+</mapper>

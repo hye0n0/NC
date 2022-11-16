@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.newcomers.prj.item.mapper.ItemMapper">
+
+	<select id="itemSelect"
+		resultType="co.newcomers.prj.item.vo.ItemDetailVO">
+		SELECT ITEM.ITEM_PRICE, DETAIL_ITEM.ITEM_CODE,
+		DETAIL_ITEM.ITEM_TITLE, DETAIL_ITEM.ITEM_CONTENT,
+		DETAIL_ITEM.ITEM_IMAGE1, DETAIL_ITEM.ITEM_IMAGE2,
+		DETAIL_ITEM.ITEM_IMAGE3, DETAIL_ITEM.ITEM_IMAGE4
+		FROM DETAIL_ITEM, ITEM
+		WHERE DETAIL_ITEM.ITEM_CODE = ITEM.ITEM_CODE
+		AND
+		DETAIL_ITEM.ITEM_CODE =
+		(SELECT ITEM_CODE FROM DETAIL_ITEM WHERE
+		ITEM_TITLE = #{itemTitle })
+	</select>
+	<select id="seqNum" resultType="String">
+		SELECT ITEM_SEQ.NEXTVAL+1 FROM DUAL
+	</select>
+	<insert id="itemInsert"
+		parameterType="co.newcomers.prj.item.vo.ItemVO">
+		INSERT INTO ITEM
+		VALUES(item_seq.nextval,
+		#{itemCategory}, #{itemName}, #{itemPrice}, #{itemId})
+	</insert>
+	<insert id="itemDetailInsert"
+		parameterType="co.newcomers.prj.item.vo.ItemVO">
+		INSERT INTO DETAIL_ITEM
+		VALUES(#{itemCode },
+		#{itemTitle}, #{itemContent},
+		#{itemImage1},
+		#{itemImage2},
+		#{itemImage3}, #{itemImage4})
+	</insert>
+	<select id="reviewSelect"
+		resultType="co.newcomers.prj.item.vo.ReviewVO">
+		SELECT REVIEW.REVIEW_WRITER, REVIEW.REVIEW_CONTENT,
+		REVIEW.REVIEW_DATE, REVIEW.REVIEW_CODE, REVIEW.REVIEW_STAR
+		FROM REVIEW
+		WHERE REVIEW.ITEM_CODE =
+		(SELECT ITEM_CODE FROM DETAIL_ITEM
+		WHERE
+		ITEM_TITLE = '${itemTitle }')
+	</select>
+
+	<insert id="reviewInsert"
+		parameterType="co.newcomers.prj.item.vo.ReviewVO">
+		INSERT INTO REVIEW
+		VALUES(review_seq.nextval,
+		#{itemCode}, #{reviewContent}, #{itemId}, #{reviewStar}, sysdate)
+	</insert>
+
+</mapper>	
